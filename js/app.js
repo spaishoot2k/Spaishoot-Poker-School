@@ -1,167 +1,146 @@
-let hands = [];
-let current = 0;
-let userAnswers = [];
+// Definicja kart
+const suits = ['♠', '♥', '♦', '♣'];
+const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
 
-// Kolejność miejsc wokół stołu:
-const seatOrder = ['EP','MP','CO','BTN','SB','BB'];
+function getSuitClass(card) {
+    if (card.includes('♠')) return 'spades';
+    if (card.includes('♥')) return 'hearts';
+    if (card.includes('♦')) return 'diamonds';
+    if (card.includes('♣')) return 'clubs';
+    return '';
+}
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const container = document.getElementById('table-container');
-  const resp = await fetch('quizzes/plo-5card/data.json');
-  if (!resp.ok) {
-    container.textContent = 'Błąd ładowania danych.';
-    return;
-  }
-  hands = await resp.json();
-  renderHand(hands[current]);
+// Przykładowe rozdania (możesz dodać więcej)
+const quizHands = [
+    {
+        communityCards: ['A♠', 'K♠', '2♥'],
+        playerCards: ['Q♠', 'J♠'],
+        pot: 300,
+        stack: 5000,
+        betToCall: 150,
+        position: 'BTN',
+        villainPosition: 'EP',
+        villainAction: 'raise to 150',
+        blinds: '25/50',
+        street: 'FLOP',
+        correctAction: 'raise',
+        explanation: 'Mamy bardzo silny draw z dwoma overcardami na BTN vs EP raise. Raise jest tutaj standardowym zagraniem ze względu na equity i pozycję.'
+    }
+];
+
+let currentHandIndex = 0;
+let score = 0;
+
+// Elementy DOM
+const communityCardsEl = document.getElementById('community-cards');
+const playerCardsEl = document.getElementById('player-cards');
+const potEl = document.getElementById('pot');
+const totalPotEl = document.getElementById('total-pot');
+const stackEl = document.querySelector('#hero-position .stack-display');
+const handNumberEl = document.getElementById('hand-number');
+const scoreEl = document.getElementById('score');
+const currentActionEl = document.getElementById('current-action');
+const bettingRoundEl = document.querySelector('.betting-round');
+
+// Przyciski akcji
+document.getElementById('fold-btn').addEventListener('click', () => makeDecision('fold'));
+document.getElementById('call-btn').addEventListener('click', () => makeDecision('call'));
+document.getElementById('raise-btn').addEventListener('click', () => makeDecision('raise'));
+
+// Przyciski wielkości raise'a
+document.querySelectorAll('.bet-size-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const sizing = e.target.textContent;
+        makeDecision('raise', sizing);
+    });
 });
 
-function renderHand(hand) {
-  const container = document.getElementById('table-container');
-  container.innerHTML = '';  // czyścimy cały kontener
+function createCardElement(card) {
+    const cardEl = document.createElement('div');
+    cardEl.className = `card ${getSuitClass(card)}`;
+    cardEl.textContent = card;
+    return cardEl;
+}
 
-  // 1) Pozycje i stacki (EP, MP, CO, BTN, SB, BB)
-  const positions = document.createElement('div');
-  positions.className = 'positions';
-  seatOrder.forEach(pos => {
-    const div = document.createElement('div');
-    div.className = `pos pos-${pos.toLowerCase()}`;
+function clearBets() {
+    document.querySelectorAll('.player-bet').forEach(el => el.textContent = '');
+}
 
-    if (pos === 'BTN') {
-      // dealer‐chip placeholder
-      div.innerHTML = `
-        <div class="dealer-placeholder"></div>
-        <div class="pos-label">BTN</div>
-      `;
-    } else {
-      div.innerHTML = `
-        <div class="avatar avatar-${pos.toLowerCase()}"></div>
-        <div class="stack">${hand.position[pos]} BB</div>
-        <div class="pos-label">${pos}</div>
-      `;
+function resetPositions() {
+    document.querySelectorAll('.player-position').forEach(el => {
+        el.style.opacity = '0.5';
+    });
+}
+
+function displayHand(hand) {
+    // Wyczyść poprzednie karty i zakłady
+    communityCardsEl.innerHTML = '';
+    playerCardsEl.innerHTML = '';
+    clearBets();
+    resetPositions();
+
+    // Wyświetl karty wspólne
+    hand.communityCards.forEach(card => {
+        communityCardsEl.appendChild(createCardElement(card));
+    });
+
+    // Wyświetl karty gracza
+    hand.playerCards.forEach(card => {
+        playerCardsEl.appendChild(createCardElement(card));
+    });
+
+    // Aktualizuj informacje o rozdaniu
+    potEl.textContent = `Pot: ${hand.pot}`;
+    totalPotEl.textContent = `Blinds: ${hand.blinds}`;
+    stackEl.textContent = hand.stack;
+    handNumberEl.textContent = `Rozdanie ${currentHandIndex + 1}/30`;
+    scoreEl.textContent = `Wynik: ${score}/${currentHandIndex}`;
+    bettingRoundEl.textContent = hand.street;
+    
+    // Wyświetl akcję przeciwnika
+    currentActionEl.textContent = `${hand.villainPosition} ${hand.villainAction}`;
+
+    // Pokaż zakład przeciwnika
+    const villainBetEl = document.querySelector(`.${hand.villainPosition.toLowerCase()} .player-bet`);
+    if (villainBetEl) {
+        villainBetEl.textContent = hand.betToCall;
     }
-    positions.append(div);
-  });
-  container.append(positions);
 
-  // 2) Bet EP
-  const bet = document.createElement('div');
-  bet.className = 'bet-ep';
-  bet.innerHTML = `
-    <div class="bet-label">${hand.betEP} BB</div>
-    <div class="chips"></div>
-  `;
-  container.append(bet);
+    // Podświetl aktywne pozycje
+    document.querySelector(`.${hand.position.toLowerCase()}`).style.opacity = '1';
+    document.querySelector(`.${hand.villainPosition.toLowerCase()}`).style.opacity = '1';
 
-  // 3) Flop
-  const flop = document.createElement('div');
-  flop.className = 'flop';
-  hand.flop.forEach(c => {
-    const card = document.createElement('div');
-    card.className = `card rank-${c.slice(0,-1)} suit-${c.slice(-1)}`;
-    card.textContent = c;
-    flop.append(card);
-  });
-  container.append(flop);
-
-  // 4) Pot
-  const pot = document.createElement('div');
-  pot.className = 'pot';
-  pot.textContent = `Pot: ${(hand.potBefore + hand.betEP).toFixed(1)} BB`;
-  container.append(pot);
-
-  // 5) Hero (BB)
-  const hero = document.createElement('div');
-  hero.className = 'hero';
-  hero.innerHTML = `
-    <div class="avatar avatar-hero"></div>
-    <div class="stack">${(hand.position.BB - hand.betEP).toFixed(1)} BB</div>
-    <div class="pos-label">Hero</div>
-  `;
-  container.append(hero);
-
-  // 6) Ręka Hero
-  const hh = document.createElement('div');
-  hh.className = 'hero-hand';
-  hand.handHero.forEach(c => {
-    const card = document.createElement('div');
-    card.className = `card rank-${c.slice(0,-1)} suit-${c.slice(-1)}`;
-    card.textContent = c;
-    hh.append(card);
-  });
-  container.append(hh);
-
-  // 7) Przyciski
-  const btns = document.createElement('div');
-  btns.className = 'buttons';
-  btns.innerHTML = `
-    <button class="btn-call">CALL</button>
-    <button class="btn-fold">FOLD</button>
-    <button class="btn-pot">POT</button>
-  `;
-  container.append(btns);
-
-  // Obsługa odpowiedzi
-  btns.querySelector('.btn-call').onclick =  () => handleAnswer('call');
-  btns.querySelector('.btn-fold').onclick =  () => handleAnswer('fold');
-  btns.querySelector('.btn-pot').onclick  =  () => handleAnswer('pot');
+    // Zresetuj timer
+    const timerBar = document.querySelector('.timer-bar');
+    timerBar.style.animation = 'none';
+    timerBar.offsetHeight; // Trigger reflow
+    timerBar.style.animation = null;
 }
 
-function handleAnswer(answer) {
-  userAnswers[current] = answer;
-  current++;
-  if (current < hands.length) {
-    renderHand(hands[current]);
-  } else {
-    showSummary();
-  }
+function makeDecision(action, sizing = '') {
+    const currentHand = quizHands[currentHandIndex];
+    
+    if (action === currentHand.correctAction) {
+        score++;
+        alert('Poprawna decyzja! ' + currentHand.explanation);
+    } else {
+        alert('Niepoprawna decyzja. ' + currentHand.explanation);
+    }
+
+    currentHandIndex++;
+    
+    if (currentHandIndex < quizHands.length) {
+        displayHand(quizHands[currentHandIndex]);
+    } else {
+        alert(`Quiz zakończony! Twój wynik: ${score}/${quizHands.length}`);
+        if (confirm('Czy chcesz rozpocząć quiz od nowa?')) {
+            currentHandIndex = 0;
+            score = 0;
+            displayHand(quizHands[0]);
+        }
+    }
 }
 
-function showSummary() {
-  const container = document.getElementById('table-container');
-  container.innerHTML = '';
-
-  const total = hands.length;
-  const correctCount = hands.reduce((sum, hand, i) =>
-    sum + (userAnswers[i] === hand.correct ? 1 : 0),
-  0);
-
-  // Wynik
-  const h2 = document.createElement('h2');
-  h2.textContent = `Quiz zakończony – wynik: ${correctCount}/${total}`;
-  h2.style.color = '#fff';
-  container.append(h2);
-
-  // Szczegóły
-  const list = document.createElement('ol');
-  list.style.color = '#fff';
-  list.style.marginTop = '20px';
-  hands.forEach((hand, i) => {
-    const mark = userAnswers[i] === hand.correct ? '✔' : '✖';
-    const item = document.createElement('li');
-    item.style.marginBottom = '12px';
-    item.innerHTML = `
-      <strong>Ręka ${i+1}:</strong> Flop: ${hand.flop.join(' ')}<br>
-      Twoja odpowiedź: <em>${userAnswers[i]}</em> ${mark}<br>
-      Poprawna odpowiedź: <em>${hand.correct}</em><br>
-      <div style="margin-top:6px;color:#ddd;">
-        ${hand.explanation}
-      </div>
-    `;
-    list.append(item);
-  });
-  container.append(list);
-
-  // Restart
-  const btn = document.createElement('button');
-  btn.textContent = 'Zagraj ponownie';
-  btn.onclick = () => {
-    current = 0;
-    userAnswers = [];
-    renderHand(hands[0]);
-  };
-  btn.style.marginTop = '20px';
-  btn.style.padding = '8px 16px';
-  btn.style.fontSize = '16px';
-  container.append(btn);
-}
+// Rozpocznij quiz
+displayHand(quizHands[0]);
