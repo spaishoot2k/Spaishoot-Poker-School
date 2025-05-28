@@ -1,7 +1,8 @@
-/* ─────────────────────────────────────────────────────────────── */
-/* style.css – pełny kod v1.0 z uwzględnieniem ostatnich poprawek */
-/* ─────────────────────────────────────────────────────────────── */
+/* style.css – pełny kod v1.0 z najnowszymi poprawkami */
 
+/* ─────────────────────────────────────────────────────────────── */
+/* Podstawowe style i tło                                       */
+/* ─────────────────────────────────────────────────────────────── */
 body {
   margin: 0;
   background: #1f2a38;
@@ -9,14 +10,13 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* ─────── Kontener stołu ─────── */
 #table-container {
   position: relative;
   width: 800px;
   height: 500px;
   margin: 40px auto;
   background-color: #196f3d;       /* placeholder green */
-  border-radius: 50% / 25%;         /* elipsa */
+  border-radius: 50% / 25%;         /* kształt elipsy stołu */
   box-shadow:
     inset 0 4px 8px rgba(0,0,0,0.3),
     0 8px 16px rgba(0,0,0,0.2);
@@ -29,7 +29,9 @@ body {
   border-radius: inherit;
 }
 
-/* ─────── Pozycje wokół stołu ─────── */
+/* ─────────────────────────────────────────────────────────────── */
+/* Pozycje graczy wokół stołu                                     */
+/* ─────────────────────────────────────────────────────────────── */
 .pos {
   position: absolute;
   display: flex;
@@ -50,40 +52,32 @@ body {
   text-shadow: 0 1px 2px rgba(0,0,0,0.7);
 }
 
-/* ─────── Placeholder avatarów (dynamicznych) ─────── */
+/* ─────────────────────────────────────────────────────────────── */
+/* Placeholder avatarów (dynamicznych)                           */
+/* ─────────────────────────────────────────────────────────────── */
 .pos .avatar {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: #bbb;      /* szary placeholder */
+  background: #bbb;
   border: 3px solid #888;
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
   background-size: cover;
   background-position: center;
 }
 
-/* ─────── Bet EP i placeholder żetonów ─────── */
+/* ─────────────────────────────────────────────────────────────── */
+/* Bet EP – placeholder żetonów i etykieta betu                   */
+/* ─────────────────────────────────────────────────────────────── */
 .bet-ep {
   position: absolute;
-  top: 12%;      /* pod avatarem EP – ten top nie wpływa na etykietę Pot */
+  top: 12%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;      /* obok siebie: etykieta + placeholder żetonów */
   align-items: center;
   pointer-events: none;
-  width: 72px;
-}
-.chips {
-  width: 24px;    /* 50% mniejsze niż wcześniej */
-  height: 24px;
-  background: #bbb;      /* placeholder żetonów */
-  border-radius: 50%;
-  border: 3px solid #888;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 2px;
 }
 .bet-label {
   font-size: 14px;
@@ -92,10 +86,22 @@ body {
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Roboto', sans-serif;
-  text-align: center;
+}
+.chips {
+  width: 24px;              /* 50% mniejsze niż wcześniej */
+  height: 24px;
+  background: #bbb;
+  border-radius: 50%;
+  border: 3px solid #888;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  background-size: cover;
+  background-position: center;
+  margin-left: 4px;         /* odstęp od etykiety betu */
 }
 
-/* ─────── Flop ─────── */
+/* ─────────────────────────────────────────────────────────────── */
+/* Flop                                                         */
+/* ─────────────────────────────────────────────────────────────── */
 .flop {
   position: absolute;
   top: 40%; left: 50%;
@@ -119,10 +125,12 @@ body {
 .rank-10, .rank-J, .suit-♥ { color: red; }
 .suit-♠, .suit-♣, .suit-♦ { color: black; }
 
-/* ─────── Pot ─────── */
+/* ─────────────────────────────────────────────────────────────── */
+/* Pot – etykieta pod flopem                                    */
+/* ─────────────────────────────────────────────────────────────── */
 .pot {
   position: absolute;
-  top: 52%;      /* przeniesione pod flop */
+  top: 60%;     /* przenieione poniżej flopów */
   left: 50%;
   transform: translateX(-50%);
   font-size: 18px;
@@ -135,7 +143,9 @@ body {
   z-index: 5;
 }
 
-/* ─────── Hero i ręka ─────── */
+/* ─────────────────────────────────────────────────────────────── */
+/* Hero i ręka                                                  */
+/* ─────────────────────────────────────────────────────────────── */
 .hero {
   position: absolute;
   bottom: 15%; left: 50%;
@@ -152,7 +162,9 @@ body {
   gap: 8px;
 }
 
-/* ─────── Przyciski ─────── */
+/* ─────────────────────────────────────────────────────────────── */
+/* Przyciski CALL / FOLD / POT                                   */
+/* ─────────────────────────────────────────────────────────────── */
 .buttons {
   position: absolute;
   bottom: 2%; left: 50%;
