@@ -1,122 +1,366 @@
-/* ─────────────────────────────────────────────────────────────── */
-/* style.css – pełny kod v1.0 z BTN i poprawioną kolejnością      */
-/* ─────────────────────────────────────────────────────────────── */
+:root {
+    --table-color: #2a6478;
+    --felt-border: #1a4c5c;
+    --button-primary: #2c88d9;
+    --button-hover: #1a5c8f;
+    --spade-color: #000000;
+    --heart-color: #ff0000;
+    --diamond-color: #0066ff;
+    --club-color: #009933;
+}
+
 body {
-  margin: 0;
-  background: #1f2a38;
-  color: #fff;
-  font-family: 'Roboto', sans-serif;
-}
-#table-container {
-  position: relative;
-  width: 800px; height: 500px;
-  margin: 40px auto;
-  background-color: #196f3d;
-  border-radius: 50% / 25%;
-  box-shadow: inset 0 4px 8px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2);
-}
-#table-container::after {
-  content: '';
-  position: absolute;
-  top:5%; left:5%; right:5%; bottom:5%;
-  border:2px dashed rgba(255,255,255,0.3);
-  border-radius: inherit;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: white;
 }
 
-/* Pozycje: EP MP CO BTN SB BB */
-.pos {
-  position: absolute; display:flex; flex-direction:column; align-items:center;
-}
-.pos-ep  { top:8%;   left:50%; transform:translate(-50%,-50%); }
-.pos-mp  { top:24%;  left:15%; transform:translate(-50%,-50%); }
-.pos-co  { top:24%;  right:15%;transform:translate(50%,-50%); }
-.pos-btn { top:50%;  right:15%;transform:translate(50%,-50%); } /* przy BTN */
-.pos-sb  { bottom:24%;left:15%; transform:translate(-50%,50%); }
-.pos-bb  { bottom:8%; left:50%; transform:translate(-50%,50%); }
-
-.pos-label {
-  margin-top:4px; font-size:12px; color:#eee;
-  text-shadow:0 1px 2px rgba(0,0,0,0.7);
-}
-.pos .avatar {
-  width:90px; height:90px; border-radius:50%;
-  background:#bbb; border:3px solid #888;
-  box-shadow:0 2px 4px rgba(0,0,0,0.4);
-  background-size:cover; background-position:center;
-}
-/* dealer‐chip placeholder */
-.dealer-placeholder {
-  width:30px; height:30px; border-radius:50%;
-  background:#ddd; border:3px solid #aaa;
-  box-shadow:0 2px 4px rgba(0,0,0,0.4);
+#app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
 }
 
-/* Bet EP */
-.bet-ep {
-  position:absolute; top:20%; left:50%;
-  transform:translateX(-50%);
-  display:flex; align-items:center; pointer-events:none;
-}
-.bet-label {
-  font-size:14px; color:#fff;
-  background:rgba(0,0,0,0.6); padding:2px 6px;
-  border-radius:4px; font-family:'Roboto',sans-serif;
-}
-.chips {
-  width:24px; height:24px; background:#bbb;
-  border-radius:50%; border:3px solid #888;
-  box-shadow:0 2px 4px rgba(0,0,0,0.4);
-  background-size:cover; background-position:center;
-  margin-left:6px;
+#poker-table {
+    width: 900px;
+    max-width: 95vw;
+    margin: 0 auto;
 }
 
-/* Flop */
-.flop {
-  position:absolute; top:40%; left:50%;
-  transform:translateX(-50%); display:flex; gap:8px;
+.table-felt {
+    background: radial-gradient(ellipse at center, var(--table-color) 0%, #1a4c5c 100%);
+    border: 12px solid var(--felt-border);
+    border-radius: 250px;
+    height: 450px;
+    position: relative;
+    margin-bottom: 20px;
 }
+
+/* Pozycje graczy */
+.player-position {
+    position: absolute;
+    width: 120px;
+    text-align: center;
+}
+
+.player-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto;
+    background: #2a2a2a;
+    border: 2px solid #ffd700;
+    overflow: hidden;
+}
+
+.player-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-avatar.hero {
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0,255,0,0.3);
+}
+
+.stack-display {
+    font-size: 11px;
+    color: #ffd700;
+    background: rgba(0,0,0,0.7);
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+.player-info {
+    margin-top: 5px;
+}
+
+.player-name {
+    font-size: 12px;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.position-label {
+    display: inline-block;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.player-bet {
+    color: #ffd700;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Pozycjonowanie graczy */
+.ep {
+    top: 10%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+}
+
+.mp {
+    top: 5%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
+.co {
+    top: 5%;
+    right: 30%;
+    transform: translate(50%, -50%);
+}
+
+.btn {
+    top: 10%;
+    right: 15%;
+    transform: translate(50%, -50%);
+}
+
+.sb {
+    bottom: 10%;
+    right: 15%;
+    transform: translate(50%, 50%);
+}
+
+.bb {
+    bottom: 10%;
+    left: 15%;
+    transform: translate(-50%, 50%);
+}
+
+/* Dealer button i blindy */
+.dealer-button {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: linear-gradient(145deg, #ffffff 0%, #dddddd 100%);
+    color: black;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid black;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.blind-chip {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #ffd700;
+}
+
+.blind-chip.small {
+    background: linear-gradient(145deg, #ffffff 0%, #dddddd 100%);
+    color: black;
+}
+
+.blind-chip.big {
+    background: linear-gradient(145deg, #ff4444 0%, #cc0000 100%);
+    color: white;
+}
+
+#board-container {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#community-cards {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+.betting-round {
+    color: #fff;
+    font-size: 12px;
+    background: rgba(0,0,0,0.7);
+    padding: 3px 8px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
 .card {
-  width:72px; height:96px; border-radius:6px;
-  background:#fff; display:flex;
-  align-items:center; justify-content:center;
-  font-size:24px; font-weight:bold;
-  box-shadow:0 4px 8px rgba(0,0,0,0.3);
-}
-.rank-10,.rank-J,.suit-♥ { color:red; }
-.suit-♠,.suit-♣,.suit-♦ { color:black; }
-
-/* Pot */
-.pot {
-  position:absolute; top:60%; left:50%;
-  transform:translateX(-50%);
-  font-size:18px; color:#fff;
-  background:rgba(0,0,0,0.6);
-  padding:2px 6px; border-radius:4px;
-  font-family:'Roboto',sans-serif;
-  white-space:nowrap; z-index:5;
+    width: 50px;
+    height: 70px;
+    background: linear-gradient(145deg, #ffffff 0%, #f0f0f0 100%);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid #ddd;
 }
 
-/* Hero i ręka */
-.hero {
-  position:absolute; bottom:15%; left:50%;
-  transform:translateX(-50%);
-  display:flex; flex-direction:column; align-items:center;
-}
-.hero-hand {
-  position:absolute; bottom:5%; left:50%;
-  transform:translateX(-50%); display:flex; gap:8px;
+.card.spades { color: var(--spade-color); }
+.card.hearts { color: var(--heart-color); }
+.card.diamonds { color: var(--diamond-color); }
+.card.clubs { color: var(--club-color); }
+
+#hero-position {
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
 }
 
-/* Przyciski */
-.buttons {
-  position:absolute; bottom:2%; left:50%;
-  transform:translateX(-50%); display:flex; gap:16px;
+#player-cards {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 5px;
 }
-.buttons button {
-  padding:10px 28px; font-size:16px; font-weight:bold;
-  border:none; border-radius:6px;
-  box-shadow:0 2px 4px rgba(0,0,0,0.5); cursor:pointer;
+
+.timer-bar {
+    width: 120px;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    margin: 5px auto 0;
+    overflow: hidden;
 }
-.btn-call { background:#28a745; color:#fff; }
-.btn-fold { background:#6c757d; color:#fff; }
-.btn-pot  { background:#ffc107; color:#000; }
+
+.timer-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #00ff00;
+    animation: timer 15s linear infinite;
+}
+
+@keyframes timer {
+    0% { width: 100%; }
+    100% { width: 0%; }
+}
+
+#pot-container {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: rgba(0,0,0,0.7);
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+#pot {
+    font-size: 14px;
+    color: #ffd700;
+}
+
+#total-pot {
+    font-size: 12px;
+    color: #ffd700;
+    margin-top: 2px;
+}
+
+#table-controls {
+    margin-top: 15px;
+}
+
+#action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(145deg, var(--button-primary) 0%, var(--button-hover) 100%);
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+#fold-btn {
+    background: linear-gradient(145deg, #ff4444 0%, #cc0000 100%);
+}
+
+#raise-controls {
+    position: relative;
+    display: inline-block;
+}
+
+.bet-sizing {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: rgba(0,0,0,0.8);
+    padding: 4px;
+    border-radius: 4px;
+}
+
+#raise-controls:hover .bet-sizing {
+    opacity: 1;
+}
+
+.bet-size-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    min-width: auto;
+}
+
+#quiz-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+#current-action {
+    color: #ffd700;
+    font-weight: bold;
+}
