@@ -80,18 +80,20 @@ function renderHand(hand) {
   });
   container.append(hh);
 
-  // Przyciski
+  // Przyciski: CALL, FOLD, POT
   const btns = document.createElement('div');
   btns.className = 'buttons';
   btns.innerHTML = `
     <button class="btn-call">CALL</button>
     <button class="btn-fold">FOLD</button>
+    <button class="btn-pot">POT</button>
   `;
   container.append(btns);
 
   // Obsługa odpowiedzi
-  container.querySelector('.btn-call').onclick  = () => handleAnswer('call');
-  container.querySelector('.btn-fold').onclick = () => handleAnswer('fold');
+  btns.querySelector('.btn-call').onclick =  () => handleAnswer('call');
+  btns.querySelector('.btn-fold').onclick =  () => handleAnswer('fold');
+  btns.querySelector('.btn-pot').onclick  =  () => handleAnswer('pot');
 }
 
 function handleAnswer(answer) {
@@ -111,8 +113,8 @@ function showSummary() {
 
   const total = hands.length;
   const correctCount = hands.reduce((sum, hand, i) =>
-    sum + (userAnswers[i] === hand.correct ? 1 : 0),
-  0);
+    sum + (userAnswers[i] === hand.correct ? 1 : 0), 0
+  );
 
   // Wynik
   const h2 = document.createElement('h2');
@@ -129,27 +131,4 @@ function showSummary() {
     item.style.marginBottom = '12px';
     const mark = userAnswers[i] === hand.correct ? '✔' : '✖';
     item.innerHTML = `
-      <strong>Ręka ${i+1}:</strong> Flop: ${hand.flop.join(' ')}<br>
-      Twoja odpowiedź: <em>${userAnswers[i]}</em> ${mark}<br>
-      Poprawna odpowiedź: <em>${hand.correct}</em><br>
-      <div style="margin-top:6px;color:#ddd;">
-        ${hand.explanation}
-      </div>
-    `;
-    list.append(item);
-  });
-  container.append(list);
-
-  // Restart
-  const btn = document.createElement('button');
-  btn.textContent = 'Zagraj ponownie';
-  btn.onclick = () => {
-    current = 0;
-    userAnswers = [];
-    renderHand(hands[0]);
-  };
-  btn.style.marginTop = '20px';
-  btn.style.padding = '8px 16px';
-  btn.style.fontSize = '16px';
-  container.append(btn);
-}
+      <strong>Ręka ${i+1}:</strong> Flop: ${hand.flop.jo
