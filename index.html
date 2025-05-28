@@ -1,13 +1,130 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Poker Quiz v1.0</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Quiz - Trening Decyzji</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="table-container"></div>
-  <script src="js/app.js"></script>
+    <div id="app">
+        <div id="poker-table">
+            <div class="table-felt">
+                <!-- Pozycje graczy -->
+                <div class="player-position ep">
+                    <div class="player-avatar">
+                        <img src="https://api.dicebear.com/7.x/personas/svg?seed=ep" alt="EP" />
+                        <div class="stack-display">5000</div>
+                    </div>
+                    <div class="player-info">
+                        <div class="position-label">EP</div>
+                        <div class="player-name">Player1</div>
+                        <div class="player-bet"></div>
+                    </div>
+                </div>
+                <div class="player-position mp">
+                    <div class="player-avatar">
+                        <img src="https://api.dicebear.com/7.x/personas/svg?seed=mp" alt="MP" />
+                        <div class="stack-display">4800</div>
+                    </div>
+                    <div class="player-info">
+                        <div class="position-label">MP</div>
+                        <div class="player-name">Player2</div>
+                        <div class="player-bet"></div>
+                    </div>
+                </div>
+                <div class="player-position co">
+                    <div class="player-avatar">
+                        <img src="https://api.dicebear.com/7.x/personas/svg?seed=co" alt="CO" />
+                        <div class="stack-display">5200</div>
+                    </div>
+                    <div class="player-info">
+                        <div class="position-label">CO</div>
+                        <div class="player-name">Player3</div>
+                        <div class="player-bet"></div>
+                    </div>
+                </div>
+                <div class="player-position btn">
+                    <div class="player-avatar">
+                        <img src="https://api.dicebear.com/7.x/personas/svg?seed=btn" alt="BTN" />
+                        <div class="stack-display">4900</div>
+                    </div>
+                    <div class="player-info">
+                        <div class="position-label">BTN</div>
+                        <div class="player-name">Player4</div>
+                        <div class="player-bet"></div>
+                    </div>
+                    <div class="dealer-button">D</div>
+                </div>
+                <div class="player-position sb">
+                    <div class="player-avatar">
+                        <img src="https://api.dicebear.com/7.x/personas/svg?seed=sb" alt="SB" />
+                        <div class="stack-display">4975</div>
+                    </div>
+                    <div class="player-info">
+                        <div class="position-label">SB</div>
+                        <div class="player-name">Player5</div>
+                        <div class="player-bet"></div>
+                    </div>
+                    <div class="blind-chip small">SB</div>
+                </div>
+                <div class="player-position bb">
+                    <div class="player-avatar">
+                        <img src="https://api.dicebear.com/7.x/personas/svg?seed=bb" alt="BB" />
+                        <div class="stack-display">4950</div>
+                    </div>
+                    <div class="player-info">
+                        <div class="position-label">BB</div>
+                        <div class="player-name">Player6</div>
+                        <div class="player-bet"></div>
+                    </div>
+                    <div class="blind-chip big">BB</div>
+                </div>
+
+                <!-- Karty wspólne i pot -->
+                <div id="board-container">
+                    <div id="community-cards"></div>
+                    <div class="betting-round">FLOP</div>
+                </div>
+                <div id="pot-container">
+                    <div id="pot"></div>
+                    <div id="total-pot"></div>
+                </div>
+                
+                <!-- Karty gracza i stack -->
+                <div id="hero-position">
+                    <div class="player-avatar hero">
+                        <img src="https://api.dicebear.com/7.x/personas/svg?seed=hero" alt="Hero" />
+                        <div class="stack-display" id="player-stack"></div>
+                    </div>
+                    <div id="player-cards"></div>
+                    <div class="timer-bar"></div>
+                </div>
+            </div>
+
+            <!-- Przyciski akcji i informacje -->
+            <div id="table-controls">
+                <div id="action-buttons">
+                    <button id="fold-btn">Fold</button>
+                    <button id="call-btn">Call</button>
+                    <div id="raise-controls">
+                        <button id="raise-btn">Raise</button>
+                        <div class="bet-sizing">
+                            <button class="bet-size-btn">2x</button>
+                            <button class="bet-size-btn">2.5x</button>
+                            <button class="bet-size-btn">3x</button>
+                            <button class="bet-size-btn">All-in</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="quiz-info">
+                    <div id="hand-number"></div>
+                    <div id="score"></div>
+                    <div id="current-action"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
-
