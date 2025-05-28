@@ -2,6 +2,9 @@ let hands = [];
 let current = 0;
 let userAnswers = [];
 
+// Kolejność miejsc wokół stołu:
+const seatOrder = ['EP','MP','CO','BTN','SB','BB'];
+
 document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('table-container');
   const resp = await fetch('quizzes/plo-5card/data.json');
@@ -15,34 +18,42 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function renderHand(hand) {
   const container = document.getElementById('table-container');
-  container.innerHTML = '';
-  // ← usuń: container.style.backgroundColor = '#163248';
+  container.innerHTML = '';  // czyścimy cały kontener
 
-  // Pozycje i stacki
+  // 1) Pozycje i stacki (EP, MP, CO, BTN, SB, BB)
   const positions = document.createElement('div');
   positions.className = 'positions';
-  for (let pos of ['EP','MP','CO','SB','BB']) {
+  seatOrder.forEach(pos => {
     const div = document.createElement('div');
     div.className = `pos pos-${pos.toLowerCase()}`;
-    div.innerHTML = `
-      <div class="avatar avatar-${pos.toLowerCase()}"></div>
-      <div class="stack">${hand.position[pos]} BB</div>
-      <div class="pos-label">${pos}</div>
-    `;
+
+    if (pos === 'BTN') {
+      // dealer‐chip placeholder
+      div.innerHTML = `
+        <div class="dealer-placeholder"></div>
+        <div class="pos-label">BTN</div>
+      `;
+    } else {
+      div.innerHTML = `
+        <div class="avatar avatar-${pos.toLowerCase()}"></div>
+        <div class="stack">${hand.position[pos]} BB</div>
+        <div class="pos-label">${pos}</div>
+      `;
+    }
     positions.append(div);
-  }
+  });
   container.append(positions);
 
-  // Bet EP
+  // 2) Bet EP
   const bet = document.createElement('div');
   bet.className = 'bet-ep';
   bet.innerHTML = `
-    <div class="chips"></div>
     <div class="bet-label">${hand.betEP} BB</div>
+    <div class="chips"></div>
   `;
   container.append(bet);
 
-  // Flop
+  // 3) Flop
   const flop = document.createElement('div');
   flop.className = 'flop';
   hand.flop.forEach(c => {
@@ -53,13 +64,13 @@ function renderHand(hand) {
   });
   container.append(flop);
 
-  // Pot
+  // 4) Pot
   const pot = document.createElement('div');
   pot.className = 'pot';
   pot.textContent = `Pot: ${(hand.potBefore + hand.betEP).toFixed(1)} BB`;
   container.append(pot);
 
-  // Hero
+  // 5) Hero (BB)
   const hero = document.createElement('div');
   hero.className = 'hero';
   hero.innerHTML = `
@@ -69,7 +80,7 @@ function renderHand(hand) {
   `;
   container.append(hero);
 
-  // Ręka Hero
+  // 6) Ręka Hero
   const hh = document.createElement('div');
   hh.className = 'hero-hand';
   hand.handHero.forEach(c => {
@@ -80,7 +91,7 @@ function renderHand(hand) {
   });
   container.append(hh);
 
-  // Przyciski: CALL, FOLD, POT
+  // 7) Przyciski
   const btns = document.createElement('div');
   btns.className = 'buttons';
   btns.innerHTML = `
@@ -109,12 +120,11 @@ function handleAnswer(answer) {
 function showSummary() {
   const container = document.getElementById('table-container');
   container.innerHTML = '';
-  // ← usuń: container.style.backgroundColor = '#163248';
 
   const total = hands.length;
   const correctCount = hands.reduce((sum, hand, i) =>
-    sum + (userAnswers[i] === hand.correct ? 1 : 0), 0
-  );
+    sum + (userAnswers[i] === hand.correct ? 1 : 0),
+  0);
 
   // Wynik
   const h2 = document.createElement('h2');
@@ -127,9 +137,9 @@ function showSummary() {
   list.style.color = '#fff';
   list.style.marginTop = '20px';
   hands.forEach((hand, i) => {
+    const mark = userAnswers[i] === hand.correct ? '✔' : '✖';
     const item = document.createElement('li');
     item.style.marginBottom = '12px';
-    const mark = userAnswers[i] === hand.correct ? '✔' : '✖';
     item.innerHTML = `
       <strong>Ręka ${i+1}:</strong> Flop: ${hand.flop.join(' ')}<br>
       Twoja odpowiedź: <em>${userAnswers[i]}</em> ${mark}<br>
