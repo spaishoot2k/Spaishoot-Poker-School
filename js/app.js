@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function renderHand(hand) {
   const container = document.getElementById('table-container');
   container.innerHTML = '';
-  // Ustaw tylko kolor tła, nie nadpisuj background-image z CSS
-  container.style.backgroundColor = '#163248';
+  // ← usuń: container.style.backgroundColor = '#163248';
 
   // Pozycje i stacki
   const positions = document.createElement('div');
@@ -110,7 +109,7 @@ function handleAnswer(answer) {
 function showSummary() {
   const container = document.getElementById('table-container');
   container.innerHTML = '';
-  container.style.backgroundColor = '#163248';
+  // ← usuń: container.style.backgroundColor = '#163248';
 
   const total = hands.length;
   const correctCount = hands.reduce((sum, hand, i) =>
