@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "position": { "EP": 87.6, "MP": 100.0, "CO": 50.4, "SB": 48.4, "BB": 104.0 },
+    "flop": ["10♥","J♥","Q♠"],
+    "potBefore": 10.0,
+    "betEP": 6.3,
+    "handHero": ["A♦","A♥","A♣","K♠","2♦"],
+    "correct": "fold",
+    "explanation": "Na tym flopie masz nut-straight-draw, ale equity nie jest wystarczające, żeby callować cbet w multiway pociągu."
+  }
+]
