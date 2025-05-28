@@ -1,180 +1,122 @@
 /* ─────────────────────────────────────────────────────────────── */
-/* style.css – pełny kod v1.0 z najnowszymi poprawkami            */
+/* style.css – pełny kod v1.0 z BTN i poprawioną kolejnością      */
 /* ─────────────────────────────────────────────────────────────── */
-
 body {
   margin: 0;
   background: #1f2a38;
   color: #fff;
   font-family: 'Roboto', sans-serif;
 }
-
-/* ─────── Kontener stołu ─────── */
 #table-container {
   position: relative;
-  width: 800px;
-  height: 500px;
+  width: 800px; height: 500px;
   margin: 40px auto;
   background-color: #196f3d;
   border-radius: 50% / 25%;
-  box-shadow:
-    inset 0 4px 8px rgba(0,0,0,0.3),
-    0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2);
 }
 #table-container::after {
   content: '';
   position: absolute;
-  top: 5%; left: 5%; right: 5%; bottom: 5%;
-  border: 2px dashed rgba(255,255,255,0.3);
+  top:5%; left:5%; right:5%; bottom:5%;
+  border:2px dashed rgba(255,255,255,0.3);
   border-radius: inherit;
 }
 
-/* ─────── Pozycje wokół stołu ─────── */
+/* Pozycje: EP MP CO BTN SB BB */
 .pos {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: absolute; display:flex; flex-direction:column; align-items:center;
 }
-.pos-ep   { top:  8%;   left: 50%; transform: translate(-50%,-50%); }
-.pos-mp   { top: 24%;   left: 15%; transform: translate(-50%,-50%); }
-.pos-co   { top: 24%;   right:15%; transform: translate(50%,-50%); }
-.pos-btn  { bottom:18%; right:15%; transform: translate(50%,50%); }
-.pos-sb   { bottom:24%; left: 15%; transform: translate(-50%,50%); }
-.pos-bb   { bottom: 8%; left: 50%; transform: translate(-50%,50%); }
+.pos-ep  { top:8%;   left:50%; transform:translate(-50%,-50%); }
+.pos-mp  { top:24%;  left:15%; transform:translate(-50%,-50%); }
+.pos-co  { top:24%;  right:15%;transform:translate(50%,-50%); }
+.pos-btn { top:50%;  right:15%;transform:translate(50%,-50%); } /* przy BTN */
+.pos-sb  { bottom:24%;left:15%; transform:translate(-50%,50%); }
+.pos-bb  { bottom:8%; left:50%; transform:translate(-50%,50%); }
 
 .pos-label {
-  margin-top: 4px;
-  font-size: 12px;
-  color: #eee;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+  margin-top:4px; font-size:12px; color:#eee;
+  text-shadow:0 1px 2px rgba(0,0,0,0.7);
 }
-
-/* ─────── Avatar placeholders ─────── */
 .pos .avatar {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background: #bbb;
-  border: 3px solid #888;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  background-size: cover;
-  background-position: center;
+  width:90px; height:90px; border-radius:50%;
+  background:#bbb; border:3px solid #888;
+  box-shadow:0 2px 4px rgba(0,0,0,0.4);
+  background-size:cover; background-position:center;
 }
-
-/* ─────── Dealer‐chip placeholder ─────── */
+/* dealer‐chip placeholder */
 .dealer-placeholder {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #ddd;
-  border: 3px solid #aaa;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  width:30px; height:30px; border-radius:50%;
+  background:#ddd; border:3px solid #aaa;
+  box-shadow:0 2px 4px rgba(0,0,0,0.4);
 }
 
-/* ─────── Bet EP i placeholder żetonów ─────── */
+/* Bet EP */
 .bet-ep {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  pointer-events: none;
+  position:absolute; top:20%; left:50%;
+  transform:translateX(-50%);
+  display:flex; align-items:center; pointer-events:none;
 }
 .bet-label {
-  font-size: 14px;
-  color: #fff;
-  background: rgba(0,0,0,0.6);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Roboto', sans-serif;
+  font-size:14px; color:#fff;
+  background:rgba(0,0,0,0.6); padding:2px 6px;
+  border-radius:4px; font-family:'Roboto',sans-serif;
 }
 .chips {
-  width: 24px;
-  height: 24px;
-  background: #bbb;
-  border-radius: 50%;
-  border: 3px solid #888;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  background-size: cover;
-  background-position: center;
-  margin-left: 6px;
+  width:24px; height:24px; background:#bbb;
+  border-radius:50%; border:3px solid #888;
+  box-shadow:0 2px 4px rgba(0,0,0,0.4);
+  background-size:cover; background-position:center;
+  margin-left:6px;
 }
 
-/* ─────── Flop ─────── */
+/* Flop */
 .flop {
-  position: absolute;
-  top: 40%; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
+  position:absolute; top:40%; left:50%;
+  transform:translateX(-50%); display:flex; gap:8px;
 }
 .card {
-  width: 72px;
-  height: 96px;
-  border-radius: 6px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  width:72px; height:96px; border-radius:6px;
+  background:#fff; display:flex;
+  align-items:center; justify-content:center;
+  font-size:24px; font-weight:bold;
+  box-shadow:0 4px 8px rgba(0,0,0,0.3);
 }
-.rank-10, .rank-J, .suit-♥ { color: red; }
-.suit-♠, .suit-♣, .suit-♦ { color: black; }
+.rank-10,.rank-J,.suit-♥ { color:red; }
+.suit-♠,.suit-♣,.suit-♦ { color:black; }
 
-/* ─────── Pot (pod flopem) ─────── */
+/* Pot */
 .pot {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 18px;
-  color: #fff;
-  background: rgba(0,0,0,0.6);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Roboto', sans-serif;
-  white-space: nowrap;
-  z-index: 5;
+  position:absolute; top:60%; left:50%;
+  transform:translateX(-50%);
+  font-size:18px; color:#fff;
+  background:rgba(0,0,0,0.6);
+  padding:2px 6px; border-radius:4px;
+  font-family:'Roboto',sans-serif;
+  white-space:nowrap; z-index:5;
 }
 
-/* ─────── Hero i ręka ─────── */
+/* Hero i ręka */
 .hero {
-  position: absolute;
-  bottom: 15%; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position:absolute; bottom:15%; left:50%;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center;
 }
 .hero-hand {
-  position: absolute;
-  bottom: 5%; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
+  position:absolute; bottom:5%; left:50%;
+  transform:translateX(-50%); display:flex; gap:8px;
 }
 
-/* ─────── Przyciski CALL / FOLD / POT ─────── */
+/* Przyciski */
 .buttons {
-  position: absolute;
-  bottom: 2%; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 16px;
+  position:absolute; bottom:2%; left:50%;
+  transform:translateX(-50%); display:flex; gap:16px;
 }
 .buttons button {
-  padding: 10px 28px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-  cursor: pointer;
+  padding:10px 28px; font-size:16px; font-weight:bold;
+  border:none; border-radius:6px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.5); cursor:pointer;
 }
-.btn-call { background: #28a745; color: #fff; }
-.btn-fold { background: #6c757d; color: #fff; }
-.btn-pot  { background: #ffc107; color: #000; }
+.btn-call { background:#28a745; color:#fff; }
+.btn-fold { background:#6c757d; color:#fff; }
+.btn-pot  { background:#ffc107; color:#000; }
