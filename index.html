@@ -6,35 +6,45 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Główny kontener stołu -->
   <div id="table-container">
-    <!-- Statyczne placeholdery pozycji -->
+    <!-- EP -->
     <div class="pos pos-ep">
-      <div class="avatar-placeholder"></div>
+      <div class="avatar avatar-ep"></div>
+      <div class="stack">87.6 BB</div>
       <div class="pos-label">EP</div>
     </div>
+    <!-- MP -->
     <div class="pos pos-mp">
-      <div class="avatar-placeholder"></div>
+      <div class="avatar avatar-mp"></div>
+      <div class="stack">100 BB</div>
       <div class="pos-label">MP</div>
     </div>
+    <!-- CO -->
     <div class="pos pos-co">
-      <div class="avatar-placeholder"></div>
+      <div class="avatar avatar-co"></div>
+      <div class="stack">50.4 BB</div>
       <div class="pos-label">CO</div>
     </div>
+    <!-- BTN (dealer) -->
+    <div class="pos pos-btn">
+      <div class="dealer-placeholder"></div>
+      <div class="pos-label">BTN</div>
+    </div>
+    <!-- SB -->
     <div class="pos pos-sb">
-      <div class="avatar-placeholder"></div>
+      <div class="avatar avatar-sb"></div>
+      <div class="stack">48.4 BB</div>
       <div class="pos-label">SB</div>
     </div>
+    <!-- BB (Hero) -->
     <div class="pos pos-bb">
-      <div class="avatar-placeholder"></div>
+      <div class="avatar avatar-bb"></div>
+      <div class="stack">104 BB</div>
       <div class="pos-label">BB</div>
     </div>
-    <div class="pos pos-hero">
-      <div class="avatar-placeholder"></div>
-      <div class="pos-label">Hero</div>
-    </div>
-  </div>
 
+    <!-- reszta dynamicznych elementów (bet, flop, pot, hero hand, buttons) -->
+  </div>
   <script src="js/app.js"></script>
 </body>
 </html>
