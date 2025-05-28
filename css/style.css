@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────── */
-/* style.css – pełny kod z podglądem stołu i powiększonymi placeholderami */
+/* style.css – pełny kod v1.0 z uwzględnieniem ostatnich poprawek */
 /* ─────────────────────────────────────────────────────────────── */
 
 body {
@@ -9,7 +9,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* ─────── Stół (kontener) ─────── */
+/* ─────── Kontener stołu ─────── */
 #table-container {
   position: relative;
   width: 800px;
@@ -52,22 +52,38 @@ body {
 
 /* ─────── Placeholder avatarów (dynamicznych) ─────── */
 .pos .avatar {
-  width: 90px;       /* 50% większe niż wcześniej */
+  width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: #bbb;  /* szary placeholder */
+  background: #bbb;      /* szary placeholder */
   border: 3px solid #888;
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
   background-size: cover;
   background-position: center;
 }
 
-/* ─────── Bet EP – żetony ─────── */
-.bet-ep .chips {
-  width: 48px;
-  height: 48px;
-  background: url('../assets/chips/stack.png') no-repeat center/contain;
-  margin-bottom: 4px;
+/* ─────── Bet EP i placeholder żetonów ─────── */
+.bet-ep {
+  position: absolute;
+  top: 12%;      /* pod avatarem EP – ten top nie wpływa na etykietę Pot */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  width: 72px;
+}
+.chips {
+  width: 24px;    /* 50% mniejsze niż wcześniej */
+  height: 24px;
+  background: #bbb;      /* placeholder żetonów */
+  border-radius: 50%;
+  border: 3px solid #888;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 2px;
 }
 .bet-label {
   font-size: 14px;
@@ -76,6 +92,7 @@ body {
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Roboto', sans-serif;
+  text-align: center;
 }
 
 /* ─────── Flop ─────── */
@@ -105,7 +122,8 @@ body {
 /* ─────── Pot ─────── */
 .pot {
   position: absolute;
-  top: 55%; left: 50%;
+  top: 52%;      /* przeniesione pod flop */
+  left: 50%;
   transform: translateX(-50%);
   font-size: 18px;
   color: #fff;
@@ -113,6 +131,8 @@ body {
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Roboto', sans-serif;
+  white-space: nowrap;
+  z-index: 5;
 }
 
 /* ─────── Hero i ręka ─────── */
@@ -152,42 +172,3 @@ body {
 .btn-call { background: #28a745; color: #fff; }
 .btn-fold { background: #6c757d; color: #fff; }
 .btn-pot  { background: #ffc107; color: #000; }
-/* ————————————————————— Bet EP i placeholder żetonów ————————————————————— */
-.bet-ep {
-  position: absolute;
-  /* pod avatarem EP (zmień „top” jeśli trzeba lekko dopasować) */
-  top: 12%;      
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  width: 72px;  /* dopasowane do placeholdera */
-}
-
-/* placeholder dla stosu żetonów */
-.chips {
-  width: 48px;
-  height: 48px;
-  background: #bbb;       /* szare kółko */
-  border-radius: 50%;
-  border: 3px solid #888;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 4px;
-}
-
-/* etykieta betu */
-.bet-label {
-  font-size: 14px;
-  color: #fff;
-  background: rgba(0,0,0,0.6);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Roboto', sans-serif;
-  text-align: center;
-}
-
-/* usuń wszelkie inne, wcześniejsze reguły typu `.bet-ep .chips { background-image: ... }` */
