@@ -1,8 +1,7 @@
-/* style.css – pełny kod v1.0 z najnowszymi poprawkami */
+/* ─────────────────────────────────────────────────────────────── */
+/* style.css – pełny kod v1.0 z najnowszymi poprawkami            */
+/* ─────────────────────────────────────────────────────────────── */
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Podstawowe style i tło                                       */
-/* ─────────────────────────────────────────────────────────────── */
 body {
   margin: 0;
   background: #1f2a38;
@@ -10,13 +9,14 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+/* ─────── Kontener stołu ─────── */
 #table-container {
   position: relative;
   width: 800px;
   height: 500px;
   margin: 40px auto;
-  background-color: #196f3d;       /* placeholder green */
-  border-radius: 50% / 25%;         /* kształt elipsy stołu */
+  background-color: #196f3d;
+  border-radius: 50% / 25%;
   box-shadow:
     inset 0 4px 8px rgba(0,0,0,0.3),
     0 8px 16px rgba(0,0,0,0.2);
@@ -29,21 +29,19 @@ body {
   border-radius: inherit;
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Pozycje graczy wokół stołu                                     */
-/* ─────────────────────────────────────────────────────────────── */
+/* ─────── Pozycje wokół stołu ─────── */
 .pos {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.pos-ep   { top:  8%;  left: 50%; transform: translate(-50%,-50%); }
-.pos-mp   { top: 24%;  left: 15%; transform: translate(-50%,-50%); }
-.pos-co   { top: 24%;  right:15%; transform: translate(50%,-50%); }
+.pos-ep   { top:  8%;   left: 50%; transform: translate(-50%,-50%); }
+.pos-mp   { top: 24%;   left: 15%; transform: translate(-50%,-50%); }
+.pos-co   { top: 24%;   right:15%; transform: translate(50%,-50%); }
+.pos-btn  { bottom:18%; right:15%; transform: translate(50%,50%); }
 .pos-sb   { bottom:24%; left: 15%; transform: translate(-50%,50%); }
-.pos-bb   { bottom:24%; right:15%; transform: translate(50%,50%); }
-.pos-hero { bottom: 8%; left: 50%; transform: translate(-50%,50%); }
+.pos-bb   { bottom: 8%; left: 50%; transform: translate(-50%,50%); }
 
 .pos-label {
   margin-top: 4px;
@@ -52,9 +50,7 @@ body {
   text-shadow: 0 1px 2px rgba(0,0,0,0.7);
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Placeholder avatarów (dynamicznych)                           */
-/* ─────────────────────────────────────────────────────────────── */
+/* ─────── Avatar placeholders ─────── */
 .pos .avatar {
   width: 90px;
   height: 90px;
@@ -66,16 +62,23 @@ body {
   background-position: center;
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Bet EP – placeholder żetonów i etykieta betu                   */
-/* ─────────────────────────────────────────────────────────────── */
+/* ─────── Dealer‐chip placeholder ─────── */
+.dealer-placeholder {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ddd;
+  border: 3px solid #aaa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* ─────── Bet EP i placeholder żetonów ─────── */
 .bet-ep {
   position: absolute;
-  top: 12%;
+  top: 20%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  flex-direction: row;      /* obok siebie: etykieta + placeholder żetonów */
   align-items: center;
   pointer-events: none;
 }
@@ -88,7 +91,7 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 .chips {
-  width: 24px;              /* 50% mniejsze niż wcześniej */
+  width: 24px;
   height: 24px;
   background: #bbb;
   border-radius: 50%;
@@ -96,12 +99,10 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.4);
   background-size: cover;
   background-position: center;
-  margin-left: 4px;         /* odstęp od etykiety betu */
+  margin-left: 6px;
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Flop                                                         */
-/* ─────────────────────────────────────────────────────────────── */
+/* ─────── Flop ─────── */
 .flop {
   position: absolute;
   top: 40%; left: 50%;
@@ -120,17 +121,14 @@ body {
   font-size: 24px;
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  background-size: cover;
 }
 .rank-10, .rank-J, .suit-♥ { color: red; }
 .suit-♠, .suit-♣, .suit-♦ { color: black; }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Pot – etykieta pod flopem                                    */
-/* ─────────────────────────────────────────────────────────────── */
+/* ─────── Pot (pod flopem) ─────── */
 .pot {
   position: absolute;
-  top: 60%;     /* przenieione poniżej flopów */
+  top: 60%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 18px;
@@ -143,9 +141,7 @@ body {
   z-index: 5;
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Hero i ręka                                                  */
-/* ─────────────────────────────────────────────────────────────── */
+/* ─────── Hero i ręka ─────── */
 .hero {
   position: absolute;
   bottom: 15%; left: 50%;
@@ -162,9 +158,7 @@ body {
   gap: 8px;
 }
 
-/* ─────────────────────────────────────────────────────────────── */
-/* Przyciski CALL / FOLD / POT                                   */
-/* ─────────────────────────────────────────────────────────────── */
+/* ─────── Przyciski CALL / FOLD / POT ─────── */
 .buttons {
   position: absolute;
   bottom: 2%; left: 50%;
@@ -184,40 +178,3 @@ body {
 .btn-call { background: #28a745; color: #fff; }
 .btn-fold { background: #6c757d; color: #fff; }
 .btn-pot  { background: #ffc107; color: #000; }
-/* ─────────────────────────────────────────────────────────────── */
-/* style.css – korekta pozycji bet-ep i placeholdera żetonów      */
-/* ─────────────────────────────────────────────────────────────── */
-
-/* Bet EP – przeniesiony niżej, obok niego placeholder żetonów */
-.bet-ep {
-  position: absolute;
-  top: 18%;            /* przesunięte niżej, by nie zasłaniać opisu pozycji */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-}
-
-/* Etykieta betu */
-.bet-label {
-  font-size: 14px;
-  color: #fff;
-  background: rgba(0,0,0,0.6);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Roboto', sans-serif;
-}
-
-/* Placeholder dla żetonów po prawej stronie etykiety */
-.chips {
-  width: 24px;
-  height: 24px;
-  background: #bbb;      /* szare kółko */
-  border-radius: 50%;
-  border: 3px solid #888;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-  background-size: cover;
-  background-position: center;
-  margin-left: 6px;      /* odstęp od napisu 6.3 BB */
-}
