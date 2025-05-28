@@ -184,3 +184,40 @@ body {
 .btn-call { background: #28a745; color: #fff; }
 .btn-fold { background: #6c757d; color: #fff; }
 .btn-pot  { background: #ffc107; color: #000; }
+/* ─────────────────────────────────────────────────────────────── */
+/* style.css – korekta pozycji bet-ep i placeholdera żetonów      */
+/* ─────────────────────────────────────────────────────────────── */
+
+/* Bet EP – przeniesiony niżej, obok niego placeholder żetonów */
+.bet-ep {
+  position: absolute;
+  top: 18%;            /* przesunięte niżej, by nie zasłaniać opisu pozycji */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Etykieta betu */
+.bet-label {
+  font-size: 14px;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Placeholder dla żetonów po prawej stronie etykiety */
+.chips {
+  width: 24px;
+  height: 24px;
+  background: #bbb;      /* szare kółko */
+  border-radius: 50%;
+  border: 3px solid #888;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  background-size: cover;
+  background-position: center;
+  margin-left: 6px;      /* odstęp od napisu 6.3 BB */
+}
